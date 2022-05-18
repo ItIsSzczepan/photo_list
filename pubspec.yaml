@@ -1,0 +1,37 @@
+name: photo_list
+description: Mobile application showing list of phots from unsplash
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.4
+  freezed_annotation: ^2.0.3
+  retrofit: ^3.0.1+1
+  hive: ^2.2.1
+  hive_flutter: ^1.1.0
+  connectivity_plus: ^2.3.0
+  flutter_bloc: ^8.0.1
+  dartz: ^0.10.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.1
+  build_runner: ^2.1.11
+  freezed: ^2.0.3+1
+  hive_generator: ^1.1.3
+
+
+
+flutter:
+
+  uses-material-design: true
