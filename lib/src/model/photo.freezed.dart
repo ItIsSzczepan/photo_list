@@ -21,16 +21,27 @@ Photo _$PhotoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Photo {
 // meta
+  @HiveField(0)
   int get id => throw _privateConstructorUsedError;
+  @HiveField(1)
   String get tags => throw _privateConstructorUsedError;
+  @HiveField(2)
   int get likes => throw _privateConstructorUsedError;
+  @HiveField(3)
   int get views => throw _privateConstructorUsedError; // photo links
+  @HiveField(4)
   String get pageURL => throw _privateConstructorUsedError;
+  @HiveField(5)
   String get previewURL => throw _privateConstructorUsedError;
+  @HiveField(6)
   String get webformatURL => throw _privateConstructorUsedError;
+  @HiveField(7)
   String get largeImageURL => throw _privateConstructorUsedError; // user data
+  @HiveField(8)
   String get user => throw _privateConstructorUsedError;
+  @HiveField(9)
   String get userImageURL => throw _privateConstructorUsedError; // local image
+  @HiveField(10)
   List<int>? get imageDataList => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,17 +54,17 @@ abstract class $PhotoCopyWith<$Res> {
   factory $PhotoCopyWith(Photo value, $Res Function(Photo) then) =
       _$PhotoCopyWithImpl<$Res>;
   $Res call(
-      {int id,
-      String tags,
-      int likes,
-      int views,
-      String pageURL,
-      String previewURL,
-      String webformatURL,
-      String largeImageURL,
-      String user,
-      String userImageURL,
-      List<int>? imageDataList});
+      {@HiveField(0) int id,
+      @HiveField(1) String tags,
+      @HiveField(2) int likes,
+      @HiveField(3) int views,
+      @HiveField(4) String pageURL,
+      @HiveField(5) String previewURL,
+      @HiveField(6) String webformatURL,
+      @HiveField(7) String largeImageURL,
+      @HiveField(8) String user,
+      @HiveField(9) String userImageURL,
+      @HiveField(10) List<int>? imageDataList});
 }
 
 /// @nodoc
@@ -133,17 +144,17 @@ abstract class _$$_PhotoCopyWith<$Res> implements $PhotoCopyWith<$Res> {
       __$$_PhotoCopyWithImpl<$Res>;
   @override
   $Res call(
-      {int id,
-      String tags,
-      int likes,
-      int views,
-      String pageURL,
-      String previewURL,
-      String webformatURL,
-      String largeImageURL,
-      String user,
-      String userImageURL,
-      List<int>? imageDataList});
+      {@HiveField(0) int id,
+      @HiveField(1) String tags,
+      @HiveField(2) int likes,
+      @HiveField(3) int views,
+      @HiveField(4) String pageURL,
+      @HiveField(5) String previewURL,
+      @HiveField(6) String webformatURL,
+      @HiveField(7) String largeImageURL,
+      @HiveField(8) String user,
+      @HiveField(9) String userImageURL,
+      @HiveField(10) List<int>? imageDataList});
 }
 
 /// @nodoc
@@ -220,19 +231,20 @@ class __$$_PhotoCopyWithImpl<$Res> extends _$PhotoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
+@HiveType(typeId: 1, adapterName: "PhotoAdapter")
 class _$_Photo extends _Photo {
   const _$_Photo(
-      {required this.id,
-      required this.tags,
-      required this.likes,
-      required this.views,
-      required this.pageURL,
-      required this.previewURL,
-      required this.webformatURL,
-      required this.largeImageURL,
-      required this.user,
-      required this.userImageURL,
-      final List<int>? imageDataList})
+      {@HiveField(0) required this.id,
+      @HiveField(1) required this.tags,
+      @HiveField(2) required this.likes,
+      @HiveField(3) required this.views,
+      @HiveField(4) required this.pageURL,
+      @HiveField(5) required this.previewURL,
+      @HiveField(6) required this.webformatURL,
+      @HiveField(7) required this.largeImageURL,
+      @HiveField(8) required this.user,
+      @HiveField(9) required this.userImageURL,
+      @HiveField(10) final List<int>? imageDataList})
       : _imageDataList = imageDataList,
         super._();
 
@@ -241,31 +253,42 @@ class _$_Photo extends _Photo {
 
 // meta
   @override
+  @HiveField(0)
   final int id;
   @override
+  @HiveField(1)
   final String tags;
   @override
+  @HiveField(2)
   final int likes;
   @override
+  @HiveField(3)
   final int views;
 // photo links
   @override
+  @HiveField(4)
   final String pageURL;
   @override
+  @HiveField(5)
   final String previewURL;
   @override
+  @HiveField(6)
   final String webformatURL;
   @override
+  @HiveField(7)
   final String largeImageURL;
 // user data
   @override
+  @HiveField(8)
   final String user;
   @override
+  @HiveField(9)
   final String userImageURL;
 // local image
   final List<int>? _imageDataList;
 // local image
   @override
+  @HiveField(10)
   List<int>? get imageDataList {
     final value = _imageDataList;
     if (value == null) return null;
@@ -330,42 +353,53 @@ class _$_Photo extends _Photo {
 
 abstract class _Photo extends Photo {
   const factory _Photo(
-      {required final int id,
-      required final String tags,
-      required final int likes,
-      required final int views,
-      required final String pageURL,
-      required final String previewURL,
-      required final String webformatURL,
-      required final String largeImageURL,
-      required final String user,
-      required final String userImageURL,
-      final List<int>? imageDataList}) = _$_Photo;
+      {@HiveField(0) required final int id,
+      @HiveField(1) required final String tags,
+      @HiveField(2) required final int likes,
+      @HiveField(3) required final int views,
+      @HiveField(4) required final String pageURL,
+      @HiveField(5) required final String previewURL,
+      @HiveField(6) required final String webformatURL,
+      @HiveField(7) required final String largeImageURL,
+      @HiveField(8) required final String user,
+      @HiveField(9) required final String userImageURL,
+      @HiveField(10) final List<int>? imageDataList}) = _$_Photo;
   const _Photo._() : super._();
 
   factory _Photo.fromJson(Map<String, dynamic> json) = _$_Photo.fromJson;
 
   @override // meta
+  @HiveField(0)
   int get id => throw _privateConstructorUsedError;
   @override
+  @HiveField(1)
   String get tags => throw _privateConstructorUsedError;
   @override
+  @HiveField(2)
   int get likes => throw _privateConstructorUsedError;
   @override
+  @HiveField(3)
   int get views => throw _privateConstructorUsedError;
   @override // photo links
+  @HiveField(4)
   String get pageURL => throw _privateConstructorUsedError;
   @override
+  @HiveField(5)
   String get previewURL => throw _privateConstructorUsedError;
   @override
+  @HiveField(6)
   String get webformatURL => throw _privateConstructorUsedError;
   @override
+  @HiveField(7)
   String get largeImageURL => throw _privateConstructorUsedError;
   @override // user data
+  @HiveField(8)
   String get user => throw _privateConstructorUsedError;
   @override
+  @HiveField(9)
   String get userImageURL => throw _privateConstructorUsedError;
   @override // local image
+  @HiveField(10)
   List<int>? get imageDataList => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)

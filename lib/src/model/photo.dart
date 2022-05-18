@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'photo.freezed.dart';
@@ -9,22 +9,23 @@ part 'photo.g.dart';
 class Photo with _$Photo{
   const Photo._();
 
+  @HiveType(typeId: 1, adapterName: "PhotoAdapter")
   const factory Photo({
     // meta
-    required int id,
-    required String tags,
-    required int likes,
-    required int views,
+    @HiveField(0) required int id,
+    @HiveField(1) required String tags,
+    @HiveField(2) required int likes,
+    @HiveField(3) required int views,
     // photo links
-    required String pageURL,
-    required String previewURL,
-    required String webformatURL,
-    required String largeImageURL,
+    @HiveField(4) required String pageURL,
+    @HiveField(5) required String previewURL,
+    @HiveField(6) required String webformatURL,
+    @HiveField(7) required String largeImageURL,
     // user data
-    required String user,
-    required String userImageURL,
+    @HiveField(8) required String user,
+    @HiveField(9) required String userImageURL,
     // local image
-    List<int>? imageDataList
+    @HiveField(10) List<int>? imageDataList
 }) = _Photo;
 
   factory Photo.fromJson(Map<String, Object?> json)

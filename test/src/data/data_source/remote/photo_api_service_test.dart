@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:photo_list/src/config/const.dart';
 import 'package:photo_list/src/data/data_srouce/remote/photo_api_service.dart';
-import 'package:photo_list/src/model/photo.dart';
 
 class MockDio extends Mock implements Dio {
   @override
@@ -21,7 +20,7 @@ void main() {
     registerFallbackValue(
         RequestOptions(path: "https://pixabay.com/api/", method: "GET"));
     dio = MockDio();
-    Dio dio2 = Dio();
+
     service = PhotoApiService(dio);
   });
 
@@ -33,7 +32,7 @@ void main() {
           requestOptions:
           RequestOptions(path: "https://pixabay.com/api/", method: "GET"),
           data: jsonDecode(await File(
-              "C:\\Users\\kubam\\projekty\\photo_list\\test\\src\\data\\data_source\\remote\\test_json.json")
+              "test/src/data/data_source/remote/test_json.json")
               .readAsString())));
 
       PhotosPage result = await service.getPhotos(apiKey);
