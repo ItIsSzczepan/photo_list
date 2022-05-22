@@ -7,6 +7,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:photo_list/src/config/const.dart';
 import 'package:photo_list/src/core/failure.dart';
 import 'package:photo_list/src/data/data_srouce/local/hive_database_service.dart';
+import 'package:photo_list/src/data/data_srouce/remote/http_service.dart';
 import 'package:photo_list/src/data/data_srouce/remote/photo_api_service.dart';
 import 'package:photo_list/src/data/photo_repository.dart';
 import 'package:photo_list/src/model/photo.dart';
@@ -31,23 +32,27 @@ class MockPhotoApi extends Mock implements PhotoApiService {}
 
 class MockDio extends Mock implements Dio {}
 
+class MockHttpService extends Mock implements HttpService{}
+
 void main() {
   late final PhotoRepository photoRepository;
   late final MockHiveDatabase mockHiveDatabase;
   late final MockPhotoDAO mockPhotoDAO;
   late final MockBox mockBox;
   late final MockPhotoApi mockPhotoApi;
+  late final MockHttpService mockHttpService;
 
   setUpAll(() {
     mockBox = MockBox();
     mockPhotoDAO = MockPhotoDAO();
     mockHiveDatabase = MockHiveDatabase(mockPhotoDAO);
     mockPhotoApi = MockPhotoApi();
+    mockHttpService = MockHttpService();
 
     when(() => mockPhotoDAO.getListenableValue())
         .thenReturn(ValueNotifier(mockBox));
 
-    photoRepository = PhotoRepository(mockPhotoApi, mockHiveDatabase);
+    photoRepository = PhotoRepository(mockPhotoApi, mockHttpService, mockHiveDatabase);
   });
 
   group("remote", () {

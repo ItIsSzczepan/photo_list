@@ -4,14 +4,16 @@ import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:photo_list/src/core/failure.dart';
 import 'package:photo_list/src/data/data_srouce/local/hive_database_service.dart';
+import 'package:photo_list/src/data/data_srouce/remote/http_service.dart';
 import 'package:photo_list/src/data/data_srouce/remote/photo_api_service.dart';
 import 'package:photo_list/src/model/photo.dart';
 
 class PhotoRepository{
   final HiveDatabaseService _database;
   final PhotoApiService _photoApi;
+  final HttpService _httpService;
 
-  PhotoRepository(this._photoApi, this._database);
+  PhotoRepository(this._photoApi, this._httpService, this._database);
 
   Either<Failure, ValueListenable<Box<Photo>>> getLocalPhotosListenableObject() {
     try{
