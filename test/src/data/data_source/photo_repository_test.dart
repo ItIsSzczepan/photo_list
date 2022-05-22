@@ -49,6 +49,8 @@ void main() {
     mockPhotoApi = MockPhotoApi();
     mockHttpService = MockHttpService();
 
+    registerFallbackValue(Uri.parse("https://pixabay.com/api/"));
+
     when(() => mockPhotoDAO.getListenableValue())
         .thenReturn(ValueNotifier(mockBox));
 
@@ -107,8 +109,22 @@ void main() {
       expect(leftObj.message, "Wrong site");
     });
 
-    test("should save image as a list in photo object and add to db", () {
-      expect(false, true);
+    test("should save image as a list in photo object and add to db", () async{
+      when(() => mockPhotoApi.getPhotos(any()))
+          .thenAnswer((_) async => examplePhotosPage);
+      when(() => mockHttpService.getRawDataResponse(any()))
+          .thenAnswer((invocation) async => Response(
+          requestOptions: RequestOptions(path: "https://pixabay.com/api/"),
+          data: [255, 255, 255, 255]));
+      when(() => mockPhotoDAO.get(any())).thenAnswer((invocation) => examplePhoto);
+
+      await photoRepository.getPhotosFromApi(apiKey);
+      await Future.delayed(Duration(seconds: 2));
+
+
+      verify(() => mockPhotoDAO.get(any())).called(5);
+      verify(() => mockHttpService.getRawDataResponse(any())).called(5);
+
     });
   });
 

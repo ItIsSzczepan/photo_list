@@ -1,7 +1,7 @@
 import 'package:photo_list/src/data/data_srouce/remote/photo_api_service.dart';
 import 'package:photo_list/src/model/photo.dart';
 
-Photo examplePhoto = const Photo(
+Photo examplePhoto = Photo(
     id: 123,
     tags: "forest, river",
     likes: 12,

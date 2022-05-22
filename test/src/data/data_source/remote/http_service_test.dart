@@ -9,7 +9,7 @@ class MockDio extends Mock implements Dio {
   BaseOptions options = BaseOptions();
 }
 
-void main(){
+void main() {
   late final Dio dio;
   late final HttpService service;
 
@@ -24,8 +24,8 @@ void main(){
 
   group("get Photo raw", () {
     test("should return raw data of photo", () async {
-      when(() => dio.getUri<List<int>>(any(), options: any(named: "options"))).thenAnswer((invocation) async =>
-          Response(
+      when(() => dio.getUri<List<int>>(any(), options: any(named: "options")))
+          .thenAnswer((invocation) async => Response(
               requestOptions: RequestOptions(path: "https://pixabay.com/api/"),
               data: [255, 255, 255, 255]));
       Response<List<int>> result = await service.getRawDataResponse("");
@@ -33,8 +33,11 @@ void main(){
       expect(result.data?.length, 4);
     });
 
-    test("should return error on request error", (){
-      when(() => dio.getUri<List<int>>(any(), options: any(named: "options"))).thenThrow(DioError(requestOptions: RequestOptions(path: "https://pixabay.com/api/")));
+    test("should return error on request error", () {
+      when(() => dio.getUri<List<int>>(any(), options: any(named: "options")))
+          .thenThrow(DioError(
+              requestOptions:
+                  RequestOptions(path: "https://pixabay.com/api/")));
 
       expect(() => service.getRawDataResponse(""), throwsA(isA<DioError>()));
     });
