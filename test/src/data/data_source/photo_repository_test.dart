@@ -1,14 +1,17 @@
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
+// ignore: depend_on_referenced_packages
 import 'package:mocktail/mocktail.dart';
+import 'package:photo_list/src/config/const.dart';
 import 'package:photo_list/src/core/failure.dart';
 import 'package:photo_list/src/data/data_srouce/local/hive_database_service.dart';
 import 'package:photo_list/src/data/data_srouce/remote/photo_api_service.dart';
 import 'package:photo_list/src/data/photo_repository.dart';
 import 'package:photo_list/src/model/photo.dart';
+
+import '../../test_models.dart';
 
 class MockHiveDatabase extends Mock implements HiveDatabaseService {
   @override
@@ -16,22 +19,24 @@ class MockHiveDatabase extends Mock implements HiveDatabaseService {
 
   MockHiveDatabase(this.photoDao);
 }
+
 class MockPhotoDAO extends Mock implements PhotoDao {
   @override
   getAll() => [];
 }
-class MockBox extends Mock implements Box<Photo>{}
-class MockPhotoApi extends Mock implements PhotoApiService{}
-class MockDio extends Mock implements Dio{}
 
+class MockBox extends Mock implements Box<Photo> {}
 
-void main(){
+class MockPhotoApi extends Mock implements PhotoApiService {}
+
+class MockDio extends Mock implements Dio {}
+
+void main() {
   late final PhotoRepository photoRepository;
   late final MockHiveDatabase mockHiveDatabase;
   late final MockPhotoDAO mockPhotoDAO;
   late final MockBox mockBox;
   late final MockPhotoApi mockPhotoApi;
-
 
   setUpAll(() {
     mockBox = MockBox();
@@ -39,38 +44,87 @@ void main(){
     mockHiveDatabase = MockHiveDatabase(mockPhotoDAO);
     mockPhotoApi = MockPhotoApi();
 
-    when(() => mockPhotoDAO.getListenableValue()).thenReturn(ValueNotifier(mockBox));
+    when(() => mockPhotoDAO.getListenableValue())
+        .thenReturn(ValueNotifier(mockBox));
 
     photoRepository = PhotoRepository(mockPhotoApi, mockHiveDatabase);
   });
 
   group("remote", () {
-    test("should return Right<list> of photos when everything is right", () => null);
+    test("should return Right<list> of photos when everything is right",
+        () async {
+      when(() => mockPhotoApi.getPhotos(any()))
+          .thenAnswer((_) async => examplePhotosPage);
 
-    test("should return Left<Failure.OutOfRange> when there is no more photos", () {});
+      var result = await photoRepository.getPhotosFromApi(apiKey);
 
-    test("should return Left<Failure> on network error", (){});
+      expect(result.isRight(), true);
+      expect(result.getOrElse(() => []), examplePhotosPage.photos);
+    });
 
-    test("should save image as a list in photo object and add to db", (){});
+    test("should return Left<Failure.OutOfRange> when there is no more photos",
+        () async{
+      when(() => mockPhotoApi.getPhotos(any())).thenThrow(DioError(
+          requestOptions: RequestOptions(path: "https://pixabay.com/api/"),
+          response: Response(
+              requestOptions: RequestOptions(path: "https://pixabay.com/api/"),
+              statusCode: 400,
+              statusMessage: "\"page\" is out of valid range."),
+          type: DioErrorType.response));
+
+      var leftObj;
+
+      var result = await photoRepository.getPhotosFromApi(apiKey);
+
+      result.fold((l) => leftObj = l, (r) => null);
+
+      expect(result.isLeft(), true);
+      expect(leftObj, isA<OutOfRangeFailure>());
+    });
+
+    test("should return Left<Failure> on network error", () async {
+      when(() => mockPhotoApi.getPhotos(any())).thenThrow(DioError(
+          requestOptions: RequestOptions(path: "https://pixabay.com/api/"),
+          response: Response(
+              requestOptions: RequestOptions(path: "https://pixabay.com/api/"),
+              statusCode: 404,
+              statusMessage: "Wrong site"),
+          type: DioErrorType.response));
+
+      var leftObj;
+
+      var result = await photoRepository.getPhotosFromApi(apiKey);
+
+      result.fold((l) => leftObj = l, (r) => null);
+
+      expect(result.isLeft(), true);
+      expect(leftObj, isA<Failure>());
+      expect(leftObj.message, "Wrong site");
+    });
+
+    test("should save image as a list in photo object and add to db", () {
+      expect(false, true);
+    });
   });
 
   group("local", () {
-    test("should return Right<listenable> object when everything right", () async{
-      var result = photoRepository.getLocalImagesListenableObject();
+    test("should return Right<listenable> object when everything right",
+        () async {
+      var result = photoRepository.getLocalPhotosListenableObject();
 
       expect(result.isRight(), true);
       expect(result.getOrElse(() => ValueNotifier(MockBox())).value, mockBox);
     });
 
-    test("should return Left<Failure> when error was threw", () async{
-      when(() => mockPhotoDAO.getListenableValue()).thenThrow(HiveError("some error"));
+    test("should return Left<Failure> when error was threw", () async {
+      when(() => mockPhotoDAO.getListenableValue())
+          .thenThrow(HiveError("some error"));
       var left;
       var right;
 
-      var result = photoRepository.getLocalImagesListenableObject();
+      var result = photoRepository.getLocalPhotosListenableObject();
 
       result.fold((l) => left = l, (r) => right = r);
-
 
       expect(result.isLeft(), true);
       expect(left, isA<Failure>());
