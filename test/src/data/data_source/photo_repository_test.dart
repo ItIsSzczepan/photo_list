@@ -7,6 +7,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:photo_list/src/core/failure.dart';
 import 'package:photo_list/src/data/data_srouce/local/hive_database_service.dart';
 import 'package:photo_list/src/data/data_srouce/remote/photo_api_service.dart';
+import 'package:photo_list/src/data/photo_repository.dart';
 import 'package:photo_list/src/model/photo.dart';
 
 class MockHiveDatabase extends Mock implements HiveDatabaseService {
@@ -16,15 +17,8 @@ class MockHiveDatabase extends Mock implements HiveDatabaseService {
   MockHiveDatabase(this.photoDao);
 }
 class MockPhotoDAO extends Mock implements PhotoDao {
-  MockBox mockBox;
-
-  MockPhotoDAO(this.mockBox);
-
   @override
   getAll() => [];
-
-  @override
-  getListenableValue() => ValueNotifier(mockBox);
 }
 class MockBox extends Mock implements Box<Photo>{}
 class MockPhotoApi extends Mock implements PhotoApiService{}
@@ -41,9 +35,11 @@ void main(){
 
   setUpAll(() {
     mockBox = MockBox();
-    mockPhotoDAO = MockPhotoDAO(mockBox);
+    mockPhotoDAO = MockPhotoDAO();
     mockHiveDatabase = MockHiveDatabase(mockPhotoDAO);
     mockPhotoApi = MockPhotoApi();
+
+    when(() => mockPhotoDAO.getListenableValue()).thenReturn(ValueNotifier(mockBox));
 
     photoRepository = PhotoRepository(mockPhotoApi, mockHiveDatabase);
   });
@@ -60,17 +56,26 @@ void main(){
 
   group("local", () {
     test("should return Right<listenable> object when everything right", () async{
-      var result = await photoRepository.getLocalImagesListenableObject();
+      var result = photoRepository.getLocalImagesListenableObject();
 
-      expect(result.value.value, mockBox);
+      expect(result.isRight(), true);
+      expect(result.getOrElse(() => ValueNotifier(MockBox())).value, mockBox);
     });
 
     test("should return Left<Failure> when error was threw", () async{
       when(() => mockPhotoDAO.getListenableValue()).thenThrow(HiveError("some error"));
+      var left;
+      var right;
 
-      var result = await photoRepository.getLocalImagesListenableObject();
+      var result = photoRepository.getLocalImagesListenableObject();
 
-      expect(result.value.value, isA<Failure>());
+      result.fold((l) => left = l, (r) => right = r);
+
+
+      expect(result.isLeft(), true);
+      expect(left, isA<Failure>());
+      expect(result.isRight(), false);
+      expect(right, null);
     });
   });
 }
