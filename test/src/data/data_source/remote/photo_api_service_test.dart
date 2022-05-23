@@ -36,7 +36,7 @@ void main() {
                   await File("test/src/data/data_source/remote/test_json.json")
                       .readAsString())));
 
-      PhotosPage result = await service.getPhotos(apiKey);
+      PhotosPage result = await service.getPhotos({"key": apiKey});
 
       expect(result, isA<PhotosPage>());
       expect(result.total, 1570163);
@@ -50,7 +50,7 @@ void main() {
               RequestOptions(path: "https://pixabay.com/api/", method: "GET"),
           error: "505"));
 
-      expect(() => service.getPhotos(apiKey), throwsA(isA<DioError>()));
+      expect(() => service.getPhotos({"key": apiKey}), throwsA(isA<DioError>()));
     });
   });
 }

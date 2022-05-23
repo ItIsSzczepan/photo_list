@@ -38,9 +38,10 @@ class _PhotoApiService implements PhotoApiService {
   String? baseUrl;
 
   @override
-  Future<PhotosPage> getPhotos(apiKey) async {
+  Future<PhotosPage> getPhotos(queries) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'key': apiKey};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(

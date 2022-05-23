@@ -96,7 +96,7 @@ void main() {
       when(() => mockPhotoApi.getPhotos(any()))
           .thenAnswer((_) async => examplePhotosPage);
 
-      var result = await photoRepository.getPhotosFromApi(apiKey);
+      var result = await photoRepository.getPhotosFromApi(GetPhotosQuery());
       // used to execute isolate
       await Future.delayed(const Duration(seconds: 1));
 
@@ -116,7 +116,7 @@ void main() {
 
       var leftObj;
 
-      var result = await photoRepository.getPhotosFromApi(apiKey);
+      var result = await photoRepository.getPhotosFromApi(GetPhotosQuery());
 
       result.fold((l) => leftObj = l, (r) => null);
 
@@ -135,7 +135,7 @@ void main() {
 
       var leftObj;
 
-      var result = await photoRepository.getPhotosFromApi(apiKey);
+      var result = await photoRepository.getPhotosFromApi(GetPhotosQuery());
 
       result.fold((l) => leftObj = l, (r) => null);
 
@@ -165,7 +165,7 @@ void main() {
       });
       when(() => mockPhotoDAO.get(any())).thenAnswer((invocation) => null);
 
-      photoRepository.getPhotosFromApi(apiKey);
+      photoRepository.getPhotosFromApi(GetPhotosQuery());
       await Future.delayed(const Duration(seconds: 10));
 
       expect(getExecuteIndex, 5);

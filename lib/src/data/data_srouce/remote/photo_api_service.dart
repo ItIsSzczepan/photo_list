@@ -16,7 +16,7 @@ abstract class PhotoApiService {
   factory PhotoApiService(Dio dio, {String baseUrl}) = _PhotoApiService;
 
   @GET("/")
-  Future<PhotosPage> getPhotos(@Query('key') String apiKey);
+  Future<PhotosPage> getPhotos(@Queries() Map<String, dynamic> queries);
 }
 
 @freezed
