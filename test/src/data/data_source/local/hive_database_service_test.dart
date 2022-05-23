@@ -18,50 +18,62 @@ void main() {
     await service.init();
   });
 
-  test("add method should add one object", () async {
-    PhotoDao dao = service.photoDao;
-    Box<Photo> testBox = Hive.box<Photo>('photos');
-    await testBox.clear();
+  group("photo dao", () {
+    test("add method should add one object", () async {
+      PhotoDao dao = service.photoDao;
+      Box<Photo> testBox = Hive.box<Photo>('photos');
+      await testBox.clear();
 
-    expect(testBox.values.length, 0);
+      expect(testBox.values.length, 0);
 
-    dao.add(examplePhoto);
+      dao.add(examplePhoto);
 
-    expect(testBox.values.length, 1);
-  });
+      expect(testBox.values.length, 1);
+    });
 
-  test("add all method should add many objects", ()async{
-    PhotoDao dao = service.photoDao;
-    Box<Photo> testBox = Hive.box<Photo>('photos');
-    await testBox.clear();
+    test("add all method should add many objects", () async {
+      PhotoDao dao = service.photoDao;
+      Box<Photo> testBox = Hive.box<Photo>('photos');
+      await testBox.clear();
 
-    expect(testBox.values.length, 0);
+      expect(testBox.values.length, 0);
 
-    dao.add(examplePhoto.copyWith(id: 1));
-    dao.add(examplePhoto.copyWith(id: 7));
-    dao.add(examplePhoto.copyWith(id: 20));
+      dao.add(examplePhoto.copyWith(id: 1));
+      dao.add(examplePhoto.copyWith(id: 7));
+      dao.add(examplePhoto.copyWith(id: 20));
 
-    expect(testBox.values.length, 3);
-  });
+      expect(testBox.values.length, 3);
+    });
 
-  test("getAll method return right value", (){
-    PhotoDao dao = service.photoDao;
-    Box<Photo> testBox = Hive.box<Photo>('photos');
+    test("get method should return items with the same id as saved key", (){
+      PhotoDao dao = service.photoDao;
+      Box<Photo> testBox = Hive.box<Photo>('photos');
+      Photo firstPhoto = testBox.values.first;
 
-    expect(dao.getAll(), testBox.values);
-  });
+      Photo? photoFromDB = dao.get(firstPhoto.id);
 
-  test("getStream should return stream of Photos", () async{
-    PhotoDao dao = service.photoDao;
-    Box<Photo> testBox = Hive.box<Photo>('photos');
+      expect(photoFromDB?.id, firstPhoto.id);
+    });
 
-    var listenable = service.photoDao.getListenableValue();
+    test("getAll method return right value", () {
+      PhotoDao dao = service.photoDao;
+      Box<Photo> testBox = Hive.box<Photo>('photos');
 
-    expect(listenable.value.values.length, testBox.values.length);
+      expect(dao.getAll(), testBox.values);
+    });
 
-    dao.add(examplePhoto.copyWith(id: 99));
+    test("getStream should return stream of Photos", () async {
+      PhotoDao dao = service.photoDao;
+      Box<Photo> testBox = Hive.box<Photo>('photos');
 
-    expect(listenable.value.values.length, testBox.values.length);
+      var listenable = service.photoDao.getListenableValue();
+
+      expect(listenable.value.values.length, testBox.values.length);
+
+      dao.add(examplePhoto.copyWith(id: 99));
+
+      expect(listenable.value.values.length, testBox.values.length);
+    });
   });
 
   tearDownAll(() {

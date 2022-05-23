@@ -6,11 +6,11 @@ part 'photo.freezed.dart';
 part 'photo.g.dart';
 
 @freezed
-class Photo with _$Photo{
-  const Photo._();
+class Photo extends HiveObject with _$Photo{
+  Photo._();
 
   @HiveType(typeId: 1, adapterName: "PhotoAdapter")
-  const factory Photo({
+  factory Photo({
     // meta
     @HiveField(0) required int id,
     @HiveField(1) required String tags,

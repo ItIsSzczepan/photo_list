@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:photo_list/src/model/photo.dart';
 
@@ -21,8 +20,9 @@ class PhotoDao{
 
   const PhotoDao(this._box);
 
-  addAll(List<Photo> photos) => _box.addAll(photos);
-  add(Photo photo) => _box.add(photo);
+  addAll(List<Photo> photos) => _box.putAll({ for (Photo value in photos) value.id : value });
+  add(Photo photo) => _box.put(photo.id, photo);
+  Photo? get(int id) => _box.get(id);
   Iterable<Photo> getAll() => _box.values;
   ValueListenable<Box<Photo>> getListenableValue() => _box.listenable();
 

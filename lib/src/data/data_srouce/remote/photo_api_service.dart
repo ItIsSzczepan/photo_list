@@ -15,8 +15,8 @@ part 'photo_api_service.g.dart';
 abstract class PhotoApiService {
   factory PhotoApiService(Dio dio, {String baseUrl}) = _PhotoApiService;
 
-  @GET("/", autoCastResponse: false)
-  Future<PhotosPage> getPhotos(@Query('key') String apiKey);
+  @GET("/")
+  Future<PhotosPage> getPhotos(@Queries() Map<String, dynamic> queries);
 }
 
 @freezed

@@ -233,7 +233,7 @@ class __$$_PhotoCopyWithImpl<$Res> extends _$PhotoCopyWithImpl<$Res>
 @JsonSerializable()
 @HiveType(typeId: 1, adapterName: "PhotoAdapter")
 class _$_Photo extends _Photo {
-  const _$_Photo(
+  _$_Photo(
       {@HiveField(0) required this.id,
       @HiveField(1) required this.tags,
       @HiveField(2) required this.likes,
@@ -352,7 +352,7 @@ class _$_Photo extends _Photo {
 }
 
 abstract class _Photo extends Photo {
-  const factory _Photo(
+  factory _Photo(
       {@HiveField(0) required final int id,
       @HiveField(1) required final String tags,
       @HiveField(2) required final int likes,
@@ -364,7 +364,7 @@ abstract class _Photo extends Photo {
       @HiveField(8) required final String user,
       @HiveField(9) required final String userImageURL,
       @HiveField(10) final List<int>? imageDataList}) = _$_Photo;
-  const _Photo._() : super._();
+  _Photo._() : super._();
 
   factory _Photo.fromJson(Map<String, dynamic> json) = _$_Photo.fromJson;
 
