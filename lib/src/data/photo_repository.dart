@@ -50,14 +50,15 @@ class PhotoRepository{
   }
 
   Future<void> _savePhotosToDbAndDownloadPhotosRawData(List<Photo> photosFromWeb) async{
+    debugPrint(photosFromWeb.toString());
     List<Photo> photoList = List.from(photosFromWeb);
     for(int i=0; i<photoList.length; i++){
       photoList[i] = _saveUpdatePhotoInDb(photoList[i]);
     }
 
-    photoList.removeWhere((element) => element.imageDataList == null);
+    photoList.removeWhere((element) => element.imageDataList != null);
     for(Photo p in photoList){
-      _downloadAndSavePhotoData(p);
+      await _downloadAndSavePhotoData(p);
     }
 
     Isolate.exit();
@@ -77,6 +78,7 @@ class PhotoRepository{
       );
       photo.save();
     }
+    debugPrint("save");
     return photo;
   }
 
@@ -90,5 +92,6 @@ class PhotoRepository{
       );
       photo.save();
     }
+    debugPrint("download");
   }
 }
