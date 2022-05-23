@@ -25,10 +25,7 @@ class MockHiveDatabase extends Mock implements HiveDatabaseService {
   MockHiveDatabase(this.photoDao);
 }
 
-class MockPhotoDAO extends Mock implements PhotoDao {
-  @override
-  getAll() => [];
-}
+class MockPhotoDAO extends Mock implements PhotoDao {}
 
 class MockBox extends Mock implements Box<Photo> {}
 
@@ -78,8 +75,7 @@ void main() {
 
     registerFallbackValue(Uri.parse("https://pixabay.com/api/"));
 
-    when(() => mockPhotoDAO.getListenableValue())
-        .thenReturn(ValueNotifier(mockBox));
+    when(() => mockPhotoDAO.getAll()).thenReturn(examplePhotosPage.photos);
 
     when(() => mockHttpService.getRawDataResponse(any())).thenAnswer(
         (invocation) async => Response(
@@ -176,19 +172,19 @@ void main() {
   group("local", () {
     test("should return Right<listenable> object when everything right",
         () async {
-      var result = photoRepository.getLocalPhotosListenableObject();
+      var result = photoRepository.getLocalPhotosList();
 
       expect(result.isRight(), true);
-      expect(result.getOrElse(() => ValueNotifier(MockBox())).value, mockBox);
+      expect(result.getOrElse(() => []), examplePhotosPage.photos);
     });
 
     test("should return Left<Failure> when error was threw", () async {
-      when(() => mockPhotoDAO.getListenableValue())
+      when(() => mockPhotoDAO.getAll())
           .thenThrow(HiveError("some error"));
       var left;
       var right;
 
-      var result = photoRepository.getLocalPhotosListenableObject();
+      var result = photoRepository.getLocalPhotosList();
 
       result.fold((l) => left = l, (r) => right = r);
 
