@@ -25,9 +25,11 @@ class PhotoRepository{
 
   PhotoRepository(this._photoApi, this._httpService, this._database);
 
-  Either<Failure, ValueListenable<Box<Photo>>> getLocalPhotosListenableObject() {
+  Either<Failure, List<Photo>> getLocalPhotosList() {
     try{
-      var result = _database.photoDao.getListenableValue();
+      dynamic result = _database.photoDao.getAll();
+      result = result.toList();
+
       return Right(result);
     }on HiveError catch(e){
       return Left(Failure(e.toString(), errorObject: e));
@@ -47,6 +49,7 @@ class PhotoRepository{
       Isolate.spawn(_savePhotosToDbAndDownloadPhotosRawData, page.photos);
       // return data from request
       return Right(page.photos);
+
     }on DioError catch(e){
       // check if list ends
       if(e.response?.statusCode == 400 && e.response?.statusMessage == "\"page\" is out of valid range."){
