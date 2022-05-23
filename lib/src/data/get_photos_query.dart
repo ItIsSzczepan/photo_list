@@ -5,7 +5,7 @@ part of 'photo_repository.dart';
 @freezed
 class GetPhotosQuery with _$GetPhotosQuery {
 
-  factory GetPhotosQuery(
+  const factory GetPhotosQuery(
       {@Default(apiKey) String key,
       String? q,
       String? lang,
