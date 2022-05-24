@@ -16,7 +16,7 @@ Photo examplePhoto = Photo(
 PhotosPage examplePhotosPage = PhotosPage(total: 1200, totalHits: 500, photos: [
   examplePhoto.copyWith(id: 11),
   examplePhoto.copyWith(id: 15),
-  examplePhoto.copyWith(id: 12),
+  examplePhoto.copyWith(id: 12, tags: "forest, candy, river"),
   examplePhoto.copyWith(id: 115),
   examplePhoto.copyWith(id: 20)
 ]);

@@ -22,14 +22,16 @@ class PhotosListState extends Equatable {
       {bool? local,
       GetPhotosQuery? query,
       List<Photo>? values,
+        PhotosListStateStatus? status,
       Failure? error}) {
     return PhotosListState(
         local: local ?? this.local,
         query: query ?? this.query,
         values: values ?? this.values,
+        status: status ?? this.status,
         error: error ?? this.error);
   }
 
   @override
-  List<Object?> get props => [local, query, props, error];
+  List<Object?> get props => [local, query, values, error, status];
 }
