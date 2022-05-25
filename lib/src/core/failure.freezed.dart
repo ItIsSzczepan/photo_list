@@ -108,8 +108,8 @@ class __$$_FailureCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Failure implements _Failure {
-  _$_Failure(this.message, {this.errorObject});
+class _$_Failure extends _Failure {
+  const _$_Failure(this.message, {this.errorObject}) : super._();
 
   @override
   final String message;
@@ -205,9 +205,10 @@ class _$_Failure implements _Failure {
   }
 }
 
-abstract class _Failure implements Failure {
-  factory _Failure(final String message, {final dynamic errorObject}) =
+abstract class _Failure extends Failure {
+  const factory _Failure(final String message, {final dynamic errorObject}) =
       _$_Failure;
+  const _Failure._() : super._();
 
   String get message => throw _privateConstructorUsedError;
   dynamic get errorObject => throw _privateConstructorUsedError;
@@ -237,8 +238,8 @@ class __$$OutOfRangeFailureCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OutOfRangeFailure implements OutOfRangeFailure {
-  const _$OutOfRangeFailure();
+class _$OutOfRangeFailure extends OutOfRangeFailure {
+  const _$OutOfRangeFailure() : super._();
 
   @override
   String toString() {
@@ -317,6 +318,7 @@ class _$OutOfRangeFailure implements OutOfRangeFailure {
   }
 }
 
-abstract class OutOfRangeFailure implements Failure {
+abstract class OutOfRangeFailure extends Failure {
   const factory OutOfRangeFailure() = _$OutOfRangeFailure;
+  const OutOfRangeFailure._() : super._();
 }

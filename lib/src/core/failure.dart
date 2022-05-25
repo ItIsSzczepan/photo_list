@@ -4,6 +4,11 @@ part 'failure.freezed.dart';
 
 @freezed
 class Failure with _$Failure{
-  factory Failure(String message, {dynamic errorObject}) = _Failure;
+  const Failure._();
+
+  const factory Failure(String message, {dynamic errorObject}) = _Failure;
   const factory Failure.outOfRange() = OutOfRangeFailure;
+
+  String get message => message;
+  dynamic get errorObject => errorObject;
 }

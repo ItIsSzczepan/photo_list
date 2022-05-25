@@ -281,7 +281,7 @@ class __$$_GetPhotosQueryCopyWithImpl<$Res>
 class _$_GetPhotosQuery
     with DiagnosticableTreeMixin
     implements _GetPhotosQuery {
-  _$_GetPhotosQuery(
+  const _$_GetPhotosQuery(
       {this.key = apiKey,
       this.q,
       this.lang,
@@ -419,7 +419,7 @@ class _$_GetPhotosQuery
 }
 
 abstract class _GetPhotosQuery implements GetPhotosQuery {
-  factory _GetPhotosQuery(
+  const factory _GetPhotosQuery(
       {final String key,
       final String? q,
       final String? lang,
