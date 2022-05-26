@@ -14,9 +14,11 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   final Connectivity _connectivity;
 
   ConnectivityBloc(this._connectivity) : super(const ConnectivityState.initial()) {
-    on<ConnectivityStart>((event, emit){
-      _connectivityStream = _connectivity.onConnectivityChanged.listen((result) {
-        emit(ConnectivityState(result));
+    on<ConnectivityStart>((event, emit) async {
+      _connectivityStream = await _connectivity.onConnectivityChanged.listen((result) {
+        if(emit.isDone){
+          emit(ConnectivityState(result));
+        }
       });
     });
   }

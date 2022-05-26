@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'photo.freezed.dart';
 part 'photo.g.dart';
 
-@freezed
+@unfreezed
 class Photo extends HiveObject with _$Photo{
   Photo._();
 

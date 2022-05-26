@@ -13,14 +13,14 @@ class PhotosListBloc extends Bloc<PhotosListEvent, PhotosListState> {
   final PhotoRepository _photoRepository;
 
   PhotosListBloc(this._photoRepository) : super(PhotosListState.initial()) {
-    on<PhotosListLoad>((event, emit) {
+    on<PhotosListLoad>((event, emit) async {
       event.local
-          ? _loadLocal(event.query, emit)
-          : _loadFromApi(event.query, emit);
+          ? await _loadLocal(event.query, emit)
+          : await _loadFromApi(event.query, emit);
     });
 
-    on<PhotosListLoadMore>((event, emit) {
-      _loadMoreData(emit);
+    on<PhotosListLoadMore>((event, emit) async {
+      await _loadMoreData(emit);
     });
   }
 
@@ -35,12 +35,12 @@ class PhotosListBloc extends Bloc<PhotosListEvent, PhotosListState> {
     Either<Failure, List<Photo>> result =
         await _photoRepository.getPhotosFromApi(query);
 
-    result.fold((l) {
+    await result.fold((l) async {
       // ON FAILURE
-      emit(state.copyWith(status: PhotosListStateStatus.error, error: l));
-    }, (r) {
+      emit(await state.copyWith(status: PhotosListStateStatus.error, error: l));
+    }, (r) async{
       // ON SUCCESS
-      emit(state.copyWith(status: PhotosListStateStatus.done, values: r));
+      emit(await state.copyWith(status: PhotosListStateStatus.done, values: r));
     });
   }
 
@@ -82,10 +82,10 @@ class PhotosListBloc extends Bloc<PhotosListEvent, PhotosListState> {
       switch (query.order) {
         case "popular":
           list.sort((a, b) => a.likes.compareTo(b.likes));
+          list = list.reversed.toList();
           break;
         case "latest":
           list.sort((a, b) => a.views.compareTo(b.views));
-          list = list.reversed.toList();
           break;
       }
     }

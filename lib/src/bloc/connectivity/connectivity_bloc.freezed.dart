@@ -38,19 +38,19 @@ mixin _$ConnectivityState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
     TResult Function(_ConnnectivityState value) $default, {
-    required TResult Function(_ConnnectivityStateInitial value) initial,
+    required TResult Function(_ConnectivityStateInitial value) initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
     TResult Function(_ConnnectivityState value)? $default, {
-    TResult Function(_ConnnectivityStateInitial value)? initial,
+    TResult Function(_ConnectivityStateInitial value)? initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_ConnnectivityState value)? $default, {
-    TResult Function(_ConnnectivityStateInitial value)? initial,
+    TResult Function(_ConnectivityStateInitial value)? initial,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -107,8 +107,8 @@ class __$$_ConnnectivityStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ConnnectivityState implements _ConnnectivityState {
-  const _$_ConnnectivityState(this.status);
+class _$_ConnnectivityState extends _ConnnectivityState {
+  _$_ConnnectivityState(this.status) : super._();
 
   @override
   final ConnectivityResult status;
@@ -171,7 +171,7 @@ class _$_ConnnectivityState implements _ConnnectivityState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
     TResult Function(_ConnnectivityState value) $default, {
-    required TResult Function(_ConnnectivityStateInitial value) initial,
+    required TResult Function(_ConnectivityStateInitial value) initial,
   }) {
     return $default(this);
   }
@@ -180,7 +180,7 @@ class _$_ConnnectivityState implements _ConnnectivityState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
     TResult Function(_ConnnectivityState value)? $default, {
-    TResult Function(_ConnnectivityStateInitial value)? initial,
+    TResult Function(_ConnectivityStateInitial value)? initial,
   }) {
     return $default?.call(this);
   }
@@ -189,7 +189,7 @@ class _$_ConnnectivityState implements _ConnnectivityState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_ConnnectivityState value)? $default, {
-    TResult Function(_ConnnectivityStateInitial value)? initial,
+    TResult Function(_ConnectivityStateInitial value)? initial,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -199,9 +199,10 @@ class _$_ConnnectivityState implements _ConnnectivityState {
   }
 }
 
-abstract class _ConnnectivityState implements ConnectivityState {
-  const factory _ConnnectivityState(final ConnectivityResult status) =
+abstract class _ConnnectivityState extends ConnectivityState {
+  factory _ConnnectivityState(final ConnectivityResult status) =
       _$_ConnnectivityState;
+  _ConnnectivityState._() : super._();
 
   ConnectivityResult get status => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -210,31 +211,30 @@ abstract class _ConnnectivityState implements ConnectivityState {
 }
 
 /// @nodoc
-abstract class _$$_ConnnectivityStateInitialCopyWith<$Res> {
-  factory _$$_ConnnectivityStateInitialCopyWith(
-          _$_ConnnectivityStateInitial value,
-          $Res Function(_$_ConnnectivityStateInitial) then) =
-      __$$_ConnnectivityStateInitialCopyWithImpl<$Res>;
+abstract class _$$_ConnectivityStateInitialCopyWith<$Res> {
+  factory _$$_ConnectivityStateInitialCopyWith(
+          _$_ConnectivityStateInitial value,
+          $Res Function(_$_ConnectivityStateInitial) then) =
+      __$$_ConnectivityStateInitialCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_ConnnectivityStateInitialCopyWithImpl<$Res>
+class __$$_ConnectivityStateInitialCopyWithImpl<$Res>
     extends _$ConnectivityStateCopyWithImpl<$Res>
-    implements _$$_ConnnectivityStateInitialCopyWith<$Res> {
-  __$$_ConnnectivityStateInitialCopyWithImpl(
-      _$_ConnnectivityStateInitial _value,
-      $Res Function(_$_ConnnectivityStateInitial) _then)
-      : super(_value, (v) => _then(v as _$_ConnnectivityStateInitial));
+    implements _$$_ConnectivityStateInitialCopyWith<$Res> {
+  __$$_ConnectivityStateInitialCopyWithImpl(_$_ConnectivityStateInitial _value,
+      $Res Function(_$_ConnectivityStateInitial) _then)
+      : super(_value, (v) => _then(v as _$_ConnectivityStateInitial));
 
   @override
-  _$_ConnnectivityStateInitial get _value =>
-      super._value as _$_ConnnectivityStateInitial;
+  _$_ConnectivityStateInitial get _value =>
+      super._value as _$_ConnectivityStateInitial;
 }
 
 /// @nodoc
 
-class _$_ConnnectivityStateInitial implements _ConnnectivityStateInitial {
-  const _$_ConnnectivityStateInitial();
+class _$_ConnectivityStateInitial extends _ConnectivityStateInitial {
+  const _$_ConnectivityStateInitial() : super._();
 
   @override
   String toString() {
@@ -245,7 +245,7 @@ class _$_ConnnectivityStateInitial implements _ConnnectivityStateInitial {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ConnnectivityStateInitial);
+            other is _$_ConnectivityStateInitial);
   }
 
   @override
@@ -286,7 +286,7 @@ class _$_ConnnectivityStateInitial implements _ConnnectivityStateInitial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
     TResult Function(_ConnnectivityState value) $default, {
-    required TResult Function(_ConnnectivityStateInitial value) initial,
+    required TResult Function(_ConnectivityStateInitial value) initial,
   }) {
     return initial(this);
   }
@@ -295,7 +295,7 @@ class _$_ConnnectivityStateInitial implements _ConnnectivityStateInitial {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
     TResult Function(_ConnnectivityState value)? $default, {
-    TResult Function(_ConnnectivityStateInitial value)? initial,
+    TResult Function(_ConnectivityStateInitial value)? initial,
   }) {
     return initial?.call(this);
   }
@@ -304,7 +304,7 @@ class _$_ConnnectivityStateInitial implements _ConnnectivityStateInitial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_ConnnectivityState value)? $default, {
-    TResult Function(_ConnnectivityStateInitial value)? initial,
+    TResult Function(_ConnectivityStateInitial value)? initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -314,6 +314,7 @@ class _$_ConnnectivityStateInitial implements _ConnnectivityStateInitial {
   }
 }
 
-abstract class _ConnnectivityStateInitial implements ConnectivityState {
-  const factory _ConnnectivityStateInitial() = _$_ConnnectivityStateInitial;
+abstract class _ConnectivityStateInitial extends ConnectivityState {
+  const factory _ConnectivityStateInitial() = _$_ConnectivityStateInitial;
+  const _ConnectivityStateInitial._() : super._();
 }

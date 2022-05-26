@@ -32,7 +32,7 @@ void main() {
         bloc.add(ConnectivityStart());
         connectivityStream.add(ConnectivityResult.mobile);
       },
-      expect: () => [const ConnectivityState(ConnectivityResult.mobile)]);
+      expect: () => [ConnectivityState(ConnectivityResult.mobile)]);
 
   tearDownAll(() {
     connectivityStream.close();
