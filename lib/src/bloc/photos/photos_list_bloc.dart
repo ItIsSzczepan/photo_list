@@ -1,3 +1,4 @@
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -35,12 +36,12 @@ class PhotosListBloc extends Bloc<PhotosListEvent, PhotosListState> {
     Either<Failure, List<Photo>> result =
         await _photoRepository.getPhotosFromApi(query);
 
-    await result.fold((l) async {
+    result.fold((l) {
       // ON FAILURE
-      emit(await state.copyWith(status: PhotosListStateStatus.error, error: l));
-    }, (r) async{
+      emit(state.copyWith(status: PhotosListStateStatus.error, error: l));
+    }, (r) {
       // ON SUCCESS
-      emit(await state.copyWith(status: PhotosListStateStatus.done, values: r));
+      emit(state.copyWith(status: PhotosListStateStatus.done, values: r));
     });
   }
 

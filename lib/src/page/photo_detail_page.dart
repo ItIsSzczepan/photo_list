@@ -33,7 +33,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage>
     vsync: this,
   )..forward();
 
-  late final Animation<Offset> _offsetAnimation = Tween<Offset>(
+  late final Animation<Offset> _slideAnimation = Tween<Offset>(
     begin: const Offset(0.0, -1.5),
     end: const Offset(0.0, 0.0),
   ).animate(CurvedAnimation(
@@ -61,8 +61,9 @@ class _PhotoDetailPageState extends State<PhotoDetailPage>
                 Flexible(
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => ImagePreviewPage(local: widget.local,largeImageURL: widget.largeImageURL,rawImageData: widget.rawImageData)));
+                      _openImagePreview(context);
                     },
+                    // ignore: avoid_unnecessary_containers
                     child: Container(
                       margin: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
@@ -70,22 +71,24 @@ class _PhotoDetailPageState extends State<PhotoDetailPage>
                       clipBehavior: Clip.antiAlias,
                       child: _animatedWidget(
                           child: Hero(
-                            tag: 'image preview',
-                            child: (widget.local
-                                ? Image.memory(widget.rawImageData!)
-                                : Image.network(
-                              widget.largeImageURL,
-                              loadingBuilder: (_, widget, event) =>
-                              event == null
-                                  ? widget
-                                  : const CircularProgressIndicator(),
-                            )),
-                          )),
+                        tag: 'image preview',
+                        child: (widget.local
+                            ? Image.memory(widget.rawImageData!)
+                            : Image.network(
+                                widget.largeImageURL,
+                                loadingBuilder: (_, widget, event) =>
+                                    event == null
+                                        ? widget
+                                        : const CircularProgressIndicator(),
+                              )),
+                      )),
                     ),
                   ),
                 ),
+
                 // WHITE SPACE
                 Flexible(child: Container()),
+
                 // USER AND DATA
                 Flexible(
                   child: Column(
@@ -94,6 +97,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage>
                           child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                          // LIKES
                           _smallCard(
                               child: Row(
                             children: [
@@ -101,6 +105,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage>
                               Text(widget.likes.toString())
                             ],
                           )),
+                          // TAGS
                           _smallCard(
                               child: Wrap(
                             crossAxisAlignment: WrapCrossAlignment.center,
@@ -109,6 +114,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage>
                               Text(widget.tags.toString())
                             ],
                           )),
+                          // VIEWS
                           _smallCard(
                               child: Row(
                             children: [
@@ -118,10 +124,11 @@ class _PhotoDetailPageState extends State<PhotoDetailPage>
                           ))
                         ],
                       )),
+                      // USER
                       _animatedWidget(
                           child: _largeCard(
                               lending: ClipOval(
-                                  child: Image.network(
+                                  child: widget.local ? Icon(Icons.person) : Image.network(
                                 widget.userImageURL,
                                 filterQuality: FilterQuality.high,
                               )),
@@ -141,7 +148,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage>
     return FadeTransition(
       opacity: _fadeAnimation,
       child: SlideTransition(
-        position: _offsetAnimation,
+        position: _slideAnimation,
         child: child,
       ),
     );
@@ -175,6 +182,16 @@ class _PhotoDetailPageState extends State<PhotoDetailPage>
         ],
       ),
     );
+  }
+
+  void _openImagePreview(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => ImagePreviewPage(
+                local: widget.local,
+                largeImageURL: widget.largeImageURL,
+                rawImageData: widget.rawImageData)));
   }
 
   @override

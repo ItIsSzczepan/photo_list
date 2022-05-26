@@ -7,12 +7,14 @@ import 'package:get_it/get_it.dart';
 import 'package:photo_list/src/bloc/photos/photos_list_bloc.dart';
 import 'package:photo_list/src/core/failure.dart';
 import 'package:photo_list/src/data/photo_repository.dart';
+import 'package:photo_list/src/model/photo.dart';
 import 'package:photo_list/src/page/photo_detail_page.dart';
 import 'package:photo_list/src/widget/appbar_filter.dart';
 import 'package:photo_list/src/widget/phtos_list_widget.dart';
+import 'package:photo_list/src/widget/search_field.dart';
 
 class PhotosListPage extends StatefulWidget {
-  PhotosListPage({Key? key}) : super(key: key);
+  const PhotosListPage({Key? key}) : super(key: key);
 
   @override
   State<PhotosListPage> createState() => _PhotosListPageState();
@@ -38,23 +40,14 @@ class _PhotosListPageState extends State<PhotosListPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: TextField(
-          decoration: InputDecoration(
-              border: UnderlineInputBorder(), filled: true, hintText: "Search"),
-          textInputAction: TextInputAction.search,
-          onSubmitted: (value) {
-            BlocProvider.of<PhotosListBloc>(context).add(PhotosListLoad(
-                _photosListState.query.copyWith(q: value),
-                _photosListState.local));
-          },
+        title: SearchField(
+          onSubmitted: (value) => _sendQuery(value),
         ),
         bottom: PreferredSize(
-            preferredSize: Size.fromHeight(60),
+            preferredSize: const Size.fromHeight(60),
             child: AppBarFilter(
               onSort: (value) {
-                BlocProvider.of<PhotosListBloc>(context).add(PhotosListLoad(
-                    _photosListState.query.copyWith(order: value),
-                    _photosListState.local));
+                _sendSort(value);
               },
             )),
       ),
@@ -63,15 +56,13 @@ class _PhotosListPageState extends State<PhotosListPage> {
           future: GetIt.instance<Connectivity>().checkConnectivity(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              // loading
               return const Center(child: CircularProgressIndicator());
             } else {
               if (snapshot.data != ConnectivityResult.none) {
                 // send api request
                 BlocProvider.of<PhotosListBloc>(context)
-                    .add(PhotosListLoad(GetPhotosQuery(), false));
+                    .add(PhotosListLoad(const GetPhotosQuery(), false));
               }
-              // return StreamBuilder
               return _listStreamBuilder(context, snapshot.data!);
             }
           },
@@ -87,43 +78,18 @@ class _PhotosListPageState extends State<PhotosListPage> {
         _handlePhotoError(context, state);
       },
       builder: (context, state) {
+        // no internet + initial state OR no result
         if ((state.status == PhotosListStateStatus.initial &&
                 data == ConnectivityResult.none) ||
             (state.status != PhotosListStateStatus.loading &&
-                state.values.isEmpty)) return _OfflineScreen(context);
+                state.values.isEmpty)) return _offlineScreen(context);
+
         _photosListState = state;
+
         return PhotosListWidget(
           values: state.values,
           onTap: (photo) {
-            Navigator.push(
-                context,
-                PageRouteBuilder(
-                    pageBuilder: (context, anim, anotherAnim) => PhotoDetailPage(
-                          likes: photo.likes,
-                          views: photo.views,
-                          tags: photo.tags,
-                          user: photo.user,
-                          largeImageURL: photo.largeImageURL,
-                          userImageURL: photo.userImageURL,
-                          pageURL: photo.pageURL,
-                          local: state.local,
-                          rawImageData: photo.getPhotoFromStorage(),
-                        ),
-                  transitionsBuilder: (context, animation, nextAnimation, child){
-                      return ScaleTransition(
-                        scale: Tween<double>(
-                          begin: 0.0,
-                          end: 1.0,
-                        ).animate(
-                          CurvedAnimation(
-                            parent: animation,
-                            curve: Curves.fastOutSlowIn,
-                          ),
-                        ),
-                        child: child,
-                      );
-                  }
-                ));
+            _openDetailsPage(photo, state);
           },
           onEnd: () {
             if (state.status != PhotosListStateStatus.loading) {
@@ -142,6 +108,7 @@ class _PhotosListPageState extends State<PhotosListPage> {
     );
   }
 
+  // FUNCTIONAL METHODS
   _handlePhotoError(BuildContext context, PhotosListState state) async {
     if (state.status == PhotosListStateStatus.error) {
       if (state.error is OutOfRangeFailure) {
@@ -152,44 +119,91 @@ class _PhotosListPageState extends State<PhotosListPage> {
     }
   }
 
+  _sendQuery(String query) {
+    BlocProvider.of<PhotosListBloc>(context).add(PhotosListLoad(
+        _photosListState.query.copyWith(q: query), _photosListState.local));
+  }
+
+  _sendSort(String sort) {
+    BlocProvider.of<PhotosListBloc>(context).add(PhotosListLoad(
+        _photosListState.query.copyWith(order: sort), _photosListState.local));
+  }
+
+  _openDetailsPage(Photo photo, PhotosListState state) {
+    Navigator.push(
+        context,
+        PageRouteBuilder(
+            pageBuilder: (context, anim, anotherAnim) => PhotoDetailPage(
+                  likes: photo.likes,
+                  views: photo.views,
+                  tags: photo.tags,
+                  user: photo.user,
+                  largeImageURL: photo.largeImageURL,
+                  userImageURL: photo.userImageURL,
+                  pageURL: photo.pageURL,
+                  local: state.local,
+                  rawImageData: photo.getPhotoFromStorage(),
+                ),
+            transitionsBuilder: (context, animation, nextAnimation, child) {
+              return ScaleTransition(
+                scale: Tween<double>(
+                  begin: 0.0,
+                  end: 1.0,
+                ).animate(
+                  CurvedAnimation(
+                    parent: animation,
+                    curve: Curves.fastOutSlowIn,
+                  ),
+                ),
+                child: child,
+              );
+            }));
+  }
+
+  // UI METHODS
   void _showOnlineSnackBar(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("You are ONLINE! Refresh list to get new data")));
+    _showSnackBar(const Text("You are ONLINE! Refresh list to get new data"));
   }
 
   void _showOfflineSnackBar(BuildContext context) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text("You are OFFLINE :(")));
+    _showSnackBar(const Text("You are OFFLINE :("));
   }
 
   void _showEndListSnackBar(BuildContext context) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text("This is the end")));
+    _showSnackBar(const Text("This is the end"));
   }
 
   void _showErrorSnackBar(BuildContext context, Failure failure) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(failure.message)));
+    _showSnackBar(Text(failure.message, style: const TextStyle().copyWith(color: Colors.red),));
   }
 
-  Widget _OfflineScreen(BuildContext context) {
+  void _showSnackBar(Widget content) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: content,
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      backgroundColor: Colors.grey,
+    ));
+  }
+
+  Widget _offlineScreen(BuildContext context) {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("Oops... You don't have internet connection"),
+          const Text("Oops... You don't have internet connection"),
           OutlinedButton(
               onPressed: () {
                 BlocProvider.of<PhotosListBloc>(context)
-                    .add(PhotosListLoad(GetPhotosQuery(), false));
+                    .add(PhotosListLoad(_photosListState.query, false));
               },
-              child: Text("Refresh")),
+              child: const Text("Refresh")),
           OutlinedButton(
               onPressed: () {
                 BlocProvider.of<PhotosListBloc>(context)
-                    .add(PhotosListLoad(GetPhotosQuery(), true));
+                    .add(PhotosListLoad(_photosListState.query, true));
               },
-              child: Text("Load data from memeory")),
+              child: const Text("Load data from memory")),
         ],
       ),
     );

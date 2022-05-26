@@ -189,7 +189,7 @@ void main() {
           "should return out of range failure when there is no more data",
           setUp: () {
             when(() => photoRepository.getPhotosFromApi(any()))
-                .thenAnswer((invocation) async => const Left(const Failure.outOfRange()));
+                .thenAnswer((invocation) async => const Left(Failure.outOfRange()));
           },
           build: () => bloc,
           act: (bloc) => bloc.add(PhotosListLoadMore()),

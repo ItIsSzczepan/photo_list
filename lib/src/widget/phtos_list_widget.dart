@@ -3,13 +3,13 @@ import 'package:photo_list/src/model/photo.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PhotosListWidget extends StatefulWidget {
-  List<Photo> values;
-  bool isLoading, local;
-  String sort;
-  Function(Photo) onTap;
-  Function() onEnd, onRefresh;
+  final List<Photo> values;
+  final bool isLoading, local;
+  final String sort;
+  final Function(Photo) onTap;
+  final Function() onEnd, onRefresh;
 
-  PhotosListWidget(
+  const PhotosListWidget(
       {Key? key,
       required this.values,
       required this.onTap,
@@ -44,8 +44,9 @@ class _PhotosListWidgetState extends State<PhotosListWidget> {
   Widget build(BuildContext context) {
     List<Photo> list = widget.values;
 
-    if (list.isEmpty && widget.isLoading)
+    if (list.isEmpty && widget.isLoading) {
       return const Center(child: CircularProgressIndicator());
+    }
 
     return Stack(
       children: [
@@ -67,6 +68,7 @@ class _PhotosListWidgetState extends State<PhotosListWidget> {
                     childAspectRatio: 3 / 2),
                 itemBuilder: (context, index) {
                   if (index == list.length || index == list.length + 1) {
+                    // ignore: avoid_unnecessary_containers
                     return Container(child: const CircularProgressIndicator());
                   }
                   return Container(
@@ -121,7 +123,6 @@ class _PhotosListWidgetState extends State<PhotosListWidget> {
                           )),
                     ),
                   );
-                  ;
                 }),
           ),
         ),

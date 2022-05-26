@@ -1,10 +1,7 @@
-import 'dart:isolate';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:photo_list/src/config/const.dart';
 import 'package:photo_list/src/core/failure.dart';

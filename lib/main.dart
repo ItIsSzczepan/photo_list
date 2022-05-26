@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:photo_list/src/bloc/photos/photos_list_bloc.dart';
-import 'package:photo_list/src/data/data_srouce/local/hive_database_service.dart';
 import 'package:photo_list/src/injector.dart';
 import 'package:photo_list/src/model/photo.dart';
 import 'package:photo_list/src/page/photos_list_page.dart';
@@ -20,8 +19,9 @@ void main() async {
     theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
-        appBarTheme: AppBarTheme(elevation: 12),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple, brightness: Brightness.dark)),
+        appBarTheme: const AppBarTheme(elevation: 12),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.purple, brightness: Brightness.dark)),
     themeMode: ThemeMode.light,
     home: MultiBlocProvider(
       providers: [
@@ -29,7 +29,7 @@ void main() async {
           create: (context) => GetIt.instance(),
         ),
       ],
-      child: PhotosListPage(),
+      child: const PhotosListPage(),
     ),
   ));
 }

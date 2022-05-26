@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+// ignore: depend_on_referenced_packages
 import 'package:mocktail/mocktail.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_list/src/bloc/photos/photos_list_bloc.dart';
@@ -26,8 +26,8 @@ void main() {
   late PhotosListBloc mockPhotosListBloc;
 
   setUpAll(() {
-    registerFallbackValue(GetPhotosQuery());
-    registerFallbackValue(PhotosListLoad(GetPhotosQuery(), false));
+    registerFallbackValue(const GetPhotosQuery());
+    registerFallbackValue(PhotosListLoad(const GetPhotosQuery(), false));
 
     mockConnectivity = MockConnectivity();
 
@@ -44,7 +44,7 @@ void main() {
     await mockNetworkImagesFor(() => tester.pumpWidget(MaterialApp(
       home: MultiBlocProvider(providers: [
         BlocProvider<PhotosListBloc>(create: (context) => mockPhotosListBloc)
-      ], child: PhotosListPage()),
+      ], child: const PhotosListPage()),
     )));
   }
 
@@ -61,8 +61,7 @@ void main() {
           values: examplePhotosPage.photos + examplePhotosPage.photos));
 
     // ConnectivityBloc
-    connStream
-      ..add(ConnectivityResult.mobile);
+    connStream.add(ConnectivityResult.mobile);
   }
 
   setUpNetworkConnectionFailure(StreamController<PhotosListState> photosStream,
@@ -73,8 +72,7 @@ void main() {
     photosStream.add(const PhotosListState());
 
     // ConnectivityBloc
-    connStream
-      ..add(ConnectivityResult.none);
+    connStream.add(ConnectivityResult.none);
   }
 
   // refresh indicator, infinity scroll,
@@ -158,7 +156,7 @@ void main() {
         ..add(PhotosListState(
             status: PhotosListStateStatus.error,
             values: examplePhotosPage.photos + examplePhotosPage.photos,
-            error: Failure("test error")));
+            error: const Failure("test error")));
 
       await tester.pump();
 
@@ -292,7 +290,7 @@ void main() {
       await tester.pump();
 
       // ACT
-      var findLocalButton = find.text("Load data from memeory");
+      var findLocalButton = find.text("Load data from memory");
       await tester.tap(findLocalButton);
 
       photosStreamController
