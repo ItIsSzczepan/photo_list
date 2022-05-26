@@ -1,0 +1,11 @@
+{
+  "helloWorld": "Witaj świecie",
+  "title": "Pixabay Lista zdjęć",
+  "search_hint": "Szukaj",
+  "offline_message": "Ups... nie masz internetu",
+  "refresh": "Odśwież",
+  "load_local": "Załaduj dane z pamięci",
+  "list_end_snackbar": "To już koniec",
+  "offline_snackbar": "Nie masz internetu :(",
+  "online_snackbar": "Masz intenet! Odśwież listę by zaaktualizować dane"
+}

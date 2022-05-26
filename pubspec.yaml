@@ -11,7 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
+  intl: ^0.17.0
   cupertino_icons: ^1.0.4
   freezed_annotation: ^2.0.3
   retrofit: ^3.0.1+1
@@ -41,6 +44,7 @@ dev_dependencies:
 
 
 flutter:
+  generate: true
   uses-material-design: true
   assets:
     - "assets/pixabay_logo.png"

@@ -12,6 +12,8 @@ import 'package:photo_list/src/page/photo_detail_page.dart';
 import 'package:photo_list/src/widget/appbar_filter.dart';
 import 'package:photo_list/src/widget/phtos_list_widget.dart';
 import 'package:photo_list/src/widget/search_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class PhotosListPage extends StatefulWidget {
   const PhotosListPage({Key? key}) : super(key: key);
@@ -162,15 +164,15 @@ class _PhotosListPageState extends State<PhotosListPage> {
 
   // UI METHODS
   void _showOnlineSnackBar(BuildContext context) {
-    _showSnackBar(const Text("You are ONLINE! Refresh list to get new data"));
+    _showSnackBar(Text(AppLocalizations.of(context)!.online_snackbar));
   }
 
   void _showOfflineSnackBar(BuildContext context) {
-    _showSnackBar(const Text("You are OFFLINE :("));
+    _showSnackBar(Text(AppLocalizations.of(context)!.offline_snackbar));
   }
 
   void _showEndListSnackBar(BuildContext context) {
-    _showSnackBar(const Text("This is the end"));
+    _showSnackBar(Text(AppLocalizations.of(context)!.list_end_snackbar));
   }
 
   void _showErrorSnackBar(BuildContext context, Failure failure) {
@@ -191,19 +193,19 @@ class _PhotosListPageState extends State<PhotosListPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text("Oops... You don't have internet connection"),
+          Text(AppLocalizations.of(context)!.offline_message),
           OutlinedButton(
               onPressed: () {
                 BlocProvider.of<PhotosListBloc>(context)
                     .add(PhotosListLoad(_photosListState.query, false));
               },
-              child: const Text("Refresh")),
+              child: Text(AppLocalizations.of(context)!.refresh)),
           OutlinedButton(
               onPressed: () {
                 BlocProvider.of<PhotosListBloc>(context)
                     .add(PhotosListLoad(_photosListState.query, true));
               },
-              child: const Text("Load data from memory")),
+              child: Text(AppLocalizations.of(context)!.load_local)),
         ],
       ),
     );

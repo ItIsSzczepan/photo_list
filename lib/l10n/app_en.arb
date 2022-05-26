@@ -1,0 +1,38 @@
+{
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "title": "Pixabay Photo list",
+  "@title": {
+    "description": "Application title"
+  },
+  "search_hint": "Search",
+  "@search_hint": {
+    "description": "hint in search field"
+  },
+  "offline_message": "Oops... You don't have internet connection",
+  "@offline_message": {
+    "description": "Message to show when user don't have internet connection"
+  },
+  "refresh": "Refresh",
+  "@refresh": {
+    "description": "Refresh text"
+  },
+  "load_local": "Load data from memory",
+  "@load_local": {
+    "description": "text on button to loading data from memory"
+  },
+  "list_end_snackbar": "This is the end",
+  "@list_end_snackbar": {
+    "description": "Snackbar message on the end of the list"
+  },
+  "offline_snackbar": "You are OFFLINE :(",
+  "@offline_snackbar": {
+    "description": "Snackbar message when connection status changed to none"
+  },
+  "online_snackbar": "You are ONLINE! Refresh list to get new data",
+  "@online_snackbar": {
+    "description": "Snackbar message when connection status changed to online"
+  }
+}

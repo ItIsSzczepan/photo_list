@@ -6,6 +6,7 @@ import 'package:photo_list/src/bloc/photos/photos_list_bloc.dart';
 import 'package:photo_list/src/injector.dart';
 import 'package:photo_list/src/model/photo.dart';
 import 'package:photo_list/src/page/photos_list_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +17,10 @@ void main() async {
   initInjector();
 
   runApp(MaterialApp(
+    title: "Pixabay photo list",
+    onGenerateTitle: (context) => AppLocalizations.of(context)!.title,
+    localizationsDelegates: AppLocalizations.localizationsDelegates,
+    supportedLocales: AppLocalizations.supportedLocales,
     theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,

@@ -9,10 +9,13 @@ import 'package:mocktail/mocktail.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_list/src/bloc/photos/photos_list_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:photo_list/src/config/const.dart';
 import 'package:photo_list/src/core/failure.dart';
 import 'package:photo_list/src/data/photo_repository.dart';
 import 'package:photo_list/src/page/photos_list_page.dart';
 import 'package:network_image_mock/network_image_mock.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../test_models.dart';
 
@@ -42,6 +45,8 @@ void main() {
 
   setUpWidget(WidgetTester tester) async {
     await mockNetworkImagesFor(() => tester.pumpWidget(MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: MultiBlocProvider(providers: [
         BlocProvider<PhotosListBloc>(create: (context) => mockPhotosListBloc)
       ], child: const PhotosListPage()),
@@ -240,7 +245,7 @@ void main() {
       var findSortButton = find.byIcon(Icons.sort);
       await tester.tap(findSortButton);
       await tester.pump();
-      await tester.tap(find.text("Popular").last);
+      await tester.tap(find.text(ORDER.first).last);
       await tester.pump();
 
       // CHECK
@@ -290,7 +295,7 @@ void main() {
       await tester.pump();
 
       // ACT
-      var findLocalButton = find.text("Load data from memory");
+      var findLocalButton = find.text(AppLocalizationsEn().load_local);
       await tester.tap(findLocalButton);
 
       photosStreamController
