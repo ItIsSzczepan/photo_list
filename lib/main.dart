@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:photo_list/src/bloc/connectivity/connectivity_bloc.dart';
 import 'package:photo_list/src/bloc/photos/photos_list_bloc.dart';
 import 'package:photo_list/src/data/data_srouce/local/hive_database_service.dart';
 import 'package:photo_list/src/injector.dart';

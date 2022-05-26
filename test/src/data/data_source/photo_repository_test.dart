@@ -164,9 +164,9 @@ void main() {
       photoRepository.getPhotosFromApi(GetPhotosQuery());
       await Future.delayed(const Duration(seconds: 10));
 
-      expect(getExecuteIndex, 5);
+      expect(getExecuteIndex, 1);
       expect(downloadExecuteIndex, 5);
-    }, skip: true);
+    });
   });
 
   group("local", () {

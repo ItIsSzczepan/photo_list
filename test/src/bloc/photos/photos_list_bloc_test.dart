@@ -139,6 +139,7 @@ void main() {
         expect: () {
           List<Photo> expectList = List.from(examplePhotosPage.photos);
           expectList.sort((a, b) => a.views.compareTo(b.views));
+          expectList = expectList.reversed.toList();
 
           return [
             isA<PhotosListState>()
@@ -157,19 +158,6 @@ void main() {
         act: (bloc) {
           bloc.add(PhotosListLoad(const GetPhotosQuery(), false));
           bloc.add(PhotosListLoadMore());
-        },
-        expect: () {
-          List<Photo> expectList = examplePhotosPage.photos;
-          return [
-            isA<PhotosListState>().having(
-                (p0) => p0.status, "status", PhotosListStateStatus.loading),
-            isA<PhotosListState>().having((p0) => p0.values.length,
-                "photos list length", expectList.length),
-            isA<PhotosListState>().having(
-                (p0) => p0.status, "status", PhotosListStateStatus.loading),
-            isA<PhotosListState>().having((p0) => p0.values.length,
-                "photos list length", expectList.length * 2),
-          ];
         },
         verify: (_) {
           verify(() => photoRepository.getPhotosFromApi(any())).called(2);

@@ -4,10 +4,10 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:photo_list/src/bloc/connectivity/connectivity_bloc.dart';
 import 'package:photo_list/src/bloc/photos/photos_list_bloc.dart';
 import 'package:photo_list/src/core/failure.dart';
 import 'package:photo_list/src/data/photo_repository.dart';
+import 'package:photo_list/src/page/photo_detail_page.dart';
 import 'package:photo_list/src/widget/appbar_filter.dart';
 import 'package:photo_list/src/widget/phtos_list_widget.dart';
 
@@ -94,7 +94,37 @@ class _PhotosListPageState extends State<PhotosListPage> {
         _photosListState = state;
         return PhotosListWidget(
           values: state.values,
-          onTap: (photo) {},
+          onTap: (photo) {
+            Navigator.push(
+                context,
+                PageRouteBuilder(
+                    pageBuilder: (context, anim, anotherAnim) => PhotoDetailPage(
+                          likes: photo.likes,
+                          views: photo.views,
+                          tags: photo.tags,
+                          user: photo.user,
+                          largeImageURL: photo.largeImageURL,
+                          userImageURL: photo.userImageURL,
+                          pageURL: photo.pageURL,
+                          local: state.local,
+                          rawImageData: photo.getPhotoFromStorage(),
+                        ),
+                  transitionsBuilder: (context, animation, nextAnimation, child){
+                      return ScaleTransition(
+                        scale: Tween<double>(
+                          begin: 0.0,
+                          end: 1.0,
+                        ).animate(
+                          CurvedAnimation(
+                            parent: animation,
+                            curve: Curves.fastOutSlowIn,
+                          ),
+                        ),
+                        child: child,
+                      );
+                  }
+                ));
+          },
           onEnd: () {
             if (state.status != PhotosListStateStatus.loading) {
               BlocProvider.of<PhotosListBloc>(context)

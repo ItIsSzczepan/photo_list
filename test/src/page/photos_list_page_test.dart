@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:photo_list/src/bloc/connectivity/connectivity_bloc.dart';
 import 'package:photo_list/src/bloc/photos/photos_list_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:photo_list/src/core/failure.dart';
@@ -17,10 +16,6 @@ import 'package:network_image_mock/network_image_mock.dart';
 
 import '../test_models.dart';
 
-class MockConnectivityBLoc
-    extends MockBloc<ConnectivityEvent, ConnectivityState>
-    implements ConnectivityBloc {}
-
 class MockPhotosListBloc extends MockBloc<PhotosListEvent, PhotosListState>
     implements PhotosListBloc {}
 
@@ -28,7 +23,6 @@ class MockConnectivity extends Mock implements Connectivity {}
 
 void main() {
   late final Connectivity mockConnectivity;
-  late ConnectivityBloc mockConnectivityBloc;
   late PhotosListBloc mockPhotosListBloc;
 
   setUpAll(() {
@@ -41,10 +35,8 @@ void main() {
   });
 
   setUp((){
-    mockConnectivityBloc = MockConnectivityBLoc();
     mockPhotosListBloc = MockPhotosListBloc();
 
-    when(() => mockConnectivityBloc.close()).thenAnswer((invocation) async =>{});
     when(() => mockPhotosListBloc.close()).thenAnswer((invocation) async =>{});
   });
 
