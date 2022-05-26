@@ -1,5 +1,3 @@
-import 'dart:isolate';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -46,7 +44,7 @@ class PhotoRepository{
       PhotosPage page = await _photoApi.getPhotos(queryMap);
 
       // run isolate for downloading and saving photos raw data in background
-      Isolate.spawn(_savePhotosToDbAndDownloadPhotosRawData, page.photos);
+      _savePhotosToDbAndDownloadPhotosRawData(page.photos);
       // return data from request
       return Right(page.photos);
 
@@ -78,7 +76,6 @@ class PhotoRepository{
     for(Photo p in photoList){
       await _downloadAndSavePhotoData(p);
     }
-    Isolate.exit();
   }
 
   _saveUpdatePhotoInDb(Photo photo){
@@ -86,14 +83,14 @@ class PhotoRepository{
     if(photoFromDb == null){
       _database.photoDao.add(photo);
     }else{
-      photo = photoFromDb.copyWith(
-        tags: photoFromDb.tags != photo.tags ? photo.tags : photoFromDb.tags,
-        likes: photoFromDb.likes != photo.likes ? photo.likes : photoFromDb.likes,
-        views: photoFromDb.views != photo.views ? photo.views : photoFromDb.views,
-        pageURL: photoFromDb.pageURL != photo.pageURL ? photo.pageURL : photoFromDb.pageURL,
-        userImageURL: photoFromDb.userImageURL != photo.userImageURL ? photo.userImageURL : photoFromDb.userImageURL,
-      );
-      photo.save();
+      photoFromDb.views=photo.views;
+      photoFromDb.tags=photo.tags;
+      photoFromDb.likes=photo.likes;
+      photoFromDb.pageURL=photo.pageURL;
+      photoFromDb.userImageURL=photo.userImageURL;
+      photoFromDb.save();
+
+      photo = photoFromDb;
     }
     return photo;
   }
@@ -103,9 +100,7 @@ class PhotoRepository{
     response = await _httpService.getRawDataResponse(photo.webformatURL);
 
     if(response.statusCode == 200){
-      photo = photo.copyWith(
-        imageDataList: response.data
-      );
+      photo.imageDataList = response.data;
       photo.save();
     }
   }

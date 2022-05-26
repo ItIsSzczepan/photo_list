@@ -1,3 +1,4 @@
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -13,14 +14,14 @@ class PhotosListBloc extends Bloc<PhotosListEvent, PhotosListState> {
   final PhotoRepository _photoRepository;
 
   PhotosListBloc(this._photoRepository) : super(PhotosListState.initial()) {
-    on<PhotosListLoad>((event, emit) {
+    on<PhotosListLoad>((event, emit) async {
       event.local
-          ? _loadLocal(event.query, emit)
-          : _loadFromApi(event.query, emit);
+          ? await _loadLocal(event.query, emit)
+          : await _loadFromApi(event.query, emit);
     });
 
-    on<PhotosListLoadMore>((event, emit) {
-      _loadMoreData(emit);
+    on<PhotosListLoadMore>((event, emit) async {
+      await _loadMoreData(emit);
     });
   }
 
@@ -82,10 +83,10 @@ class PhotosListBloc extends Bloc<PhotosListEvent, PhotosListState> {
       switch (query.order) {
         case "popular":
           list.sort((a, b) => a.likes.compareTo(b.likes));
+          list = list.reversed.toList();
           break;
         case "latest":
           list.sort((a, b) => a.views.compareTo(b.views));
-          list = list.reversed.toList();
           break;
       }
     }

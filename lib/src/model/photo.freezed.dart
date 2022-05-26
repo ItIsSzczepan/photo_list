@@ -22,27 +22,52 @@ Photo _$PhotoFromJson(Map<String, dynamic> json) {
 mixin _$Photo {
 // meta
   @HiveField(0)
-  int get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError; // meta
+  @HiveField(0)
+  set id(int value) => throw _privateConstructorUsedError;
   @HiveField(1)
   String get tags => throw _privateConstructorUsedError;
+  @HiveField(1)
+  set tags(String value) => throw _privateConstructorUsedError;
   @HiveField(2)
   int get likes => throw _privateConstructorUsedError;
+  @HiveField(2)
+  set likes(int value) => throw _privateConstructorUsedError;
   @HiveField(3)
-  int get views => throw _privateConstructorUsedError; // photo links
+  int get views => throw _privateConstructorUsedError;
+  @HiveField(3)
+  set views(int value) => throw _privateConstructorUsedError; // photo links
   @HiveField(4)
-  String get pageURL => throw _privateConstructorUsedError;
+  String get pageURL => throw _privateConstructorUsedError; // photo links
+  @HiveField(4)
+  set pageURL(String value) => throw _privateConstructorUsedError;
   @HiveField(5)
   String get previewURL => throw _privateConstructorUsedError;
+  @HiveField(5)
+  set previewURL(String value) => throw _privateConstructorUsedError;
   @HiveField(6)
   String get webformatURL => throw _privateConstructorUsedError;
+  @HiveField(6)
+  set webformatURL(String value) => throw _privateConstructorUsedError;
   @HiveField(7)
-  String get largeImageURL => throw _privateConstructorUsedError; // user data
+  String get largeImageURL => throw _privateConstructorUsedError;
+  @HiveField(7)
+  set largeImageURL(String value) =>
+      throw _privateConstructorUsedError; // user data
   @HiveField(8)
-  String get user => throw _privateConstructorUsedError;
+  String get user => throw _privateConstructorUsedError; // user data
+  @HiveField(8)
+  set user(String value) => throw _privateConstructorUsedError;
   @HiveField(9)
-  String get userImageURL => throw _privateConstructorUsedError; // local image
+  String get userImageURL => throw _privateConstructorUsedError;
+  @HiveField(9)
+  set userImageURL(String value) =>
+      throw _privateConstructorUsedError; // local image
   @HiveField(10)
-  List<int>? get imageDataList => throw _privateConstructorUsedError;
+  List<int>? get imageDataList =>
+      throw _privateConstructorUsedError; // local image
+  @HiveField(10)
+  set imageDataList(List<int>? value) => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -222,7 +247,7 @@ class __$$_PhotoCopyWithImpl<$Res> extends _$PhotoCopyWithImpl<$Res>
           : userImageURL // ignore: cast_nullable_to_non_nullable
               as String,
       imageDataList: imageDataList == freezed
-          ? _value._imageDataList
+          ? _value.imageDataList
           : imageDataList // ignore: cast_nullable_to_non_nullable
               as List<int>?,
     ));
@@ -244,9 +269,8 @@ class _$_Photo extends _Photo {
       @HiveField(7) required this.largeImageURL,
       @HiveField(8) required this.user,
       @HiveField(9) required this.userImageURL,
-      @HiveField(10) final List<int>? imageDataList})
-      : _imageDataList = imageDataList,
-        super._();
+      @HiveField(10) this.imageDataList})
+      : super._();
 
   factory _$_Photo.fromJson(Map<String, dynamic> json) =>
       _$$_PhotoFromJson(json);
@@ -254,91 +278,45 @@ class _$_Photo extends _Photo {
 // meta
   @override
   @HiveField(0)
-  final int id;
+  int id;
   @override
   @HiveField(1)
-  final String tags;
+  String tags;
   @override
   @HiveField(2)
-  final int likes;
+  int likes;
   @override
   @HiveField(3)
-  final int views;
+  int views;
 // photo links
   @override
   @HiveField(4)
-  final String pageURL;
+  String pageURL;
   @override
   @HiveField(5)
-  final String previewURL;
+  String previewURL;
   @override
   @HiveField(6)
-  final String webformatURL;
+  String webformatURL;
   @override
   @HiveField(7)
-  final String largeImageURL;
+  String largeImageURL;
 // user data
   @override
   @HiveField(8)
-  final String user;
+  String user;
   @override
   @HiveField(9)
-  final String userImageURL;
-// local image
-  final List<int>? _imageDataList;
+  String userImageURL;
 // local image
   @override
   @HiveField(10)
-  List<int>? get imageDataList {
-    final value = _imageDataList;
-    if (value == null) return null;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+  List<int>? imageDataList;
 
   @override
   String toString() {
     return 'Photo(id: $id, tags: $tags, likes: $likes, views: $views, pageURL: $pageURL, previewURL: $previewURL, webformatURL: $webformatURL, largeImageURL: $largeImageURL, user: $user, userImageURL: $userImageURL, imageDataList: $imageDataList)';
   }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_Photo &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.tags, tags) &&
-            const DeepCollectionEquality().equals(other.likes, likes) &&
-            const DeepCollectionEquality().equals(other.views, views) &&
-            const DeepCollectionEquality().equals(other.pageURL, pageURL) &&
-            const DeepCollectionEquality()
-                .equals(other.previewURL, previewURL) &&
-            const DeepCollectionEquality()
-                .equals(other.webformatURL, webformatURL) &&
-            const DeepCollectionEquality()
-                .equals(other.largeImageURL, largeImageURL) &&
-            const DeepCollectionEquality().equals(other.user, user) &&
-            const DeepCollectionEquality()
-                .equals(other.userImageURL, userImageURL) &&
-            const DeepCollectionEquality()
-                .equals(other._imageDataList, _imageDataList));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(tags),
-      const DeepCollectionEquality().hash(likes),
-      const DeepCollectionEquality().hash(views),
-      const DeepCollectionEquality().hash(pageURL),
-      const DeepCollectionEquality().hash(previewURL),
-      const DeepCollectionEquality().hash(webformatURL),
-      const DeepCollectionEquality().hash(largeImageURL),
-      const DeepCollectionEquality().hash(user),
-      const DeepCollectionEquality().hash(userImageURL),
-      const DeepCollectionEquality().hash(_imageDataList));
 
   @JsonKey(ignore: true)
   @override
@@ -353,17 +331,17 @@ class _$_Photo extends _Photo {
 
 abstract class _Photo extends Photo {
   factory _Photo(
-      {@HiveField(0) required final int id,
-      @HiveField(1) required final String tags,
-      @HiveField(2) required final int likes,
-      @HiveField(3) required final int views,
-      @HiveField(4) required final String pageURL,
-      @HiveField(5) required final String previewURL,
-      @HiveField(6) required final String webformatURL,
-      @HiveField(7) required final String largeImageURL,
-      @HiveField(8) required final String user,
-      @HiveField(9) required final String userImageURL,
-      @HiveField(10) final List<int>? imageDataList}) = _$_Photo;
+      {@HiveField(0) required int id,
+      @HiveField(1) required String tags,
+      @HiveField(2) required int likes,
+      @HiveField(3) required int views,
+      @HiveField(4) required String pageURL,
+      @HiveField(5) required String previewURL,
+      @HiveField(6) required String webformatURL,
+      @HiveField(7) required String largeImageURL,
+      @HiveField(8) required String user,
+      @HiveField(9) required String userImageURL,
+      @HiveField(10) List<int>? imageDataList}) = _$_Photo;
   _Photo._() : super._();
 
   factory _Photo.fromJson(Map<String, dynamic> json) = _$_Photo.fromJson;

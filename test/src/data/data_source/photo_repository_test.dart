@@ -1,14 +1,13 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 
 // ignore: depend_on_referenced_packages
 import 'package:mocktail/mocktail.dart';
-import 'package:photo_list/src/config/const.dart';
 import 'package:photo_list/src/core/failure.dart';
 import 'package:photo_list/src/data/data_srouce/local/hive_database_service.dart';
 import 'package:photo_list/src/data/data_srouce/remote/http_service.dart';
@@ -62,12 +61,10 @@ void main() {
   late final PhotoRepository photoRepository;
   late final MockHiveDatabase mockHiveDatabase;
   late final MockPhotoDAO mockPhotoDAO;
-  late final MockBox mockBox;
   late final MockPhotoApi mockPhotoApi;
   late final MockHttpService mockHttpService;
 
   setUpAll(() {
-    mockBox = MockBox();
     mockPhotoDAO = MockPhotoDAO();
     mockHiveDatabase = MockHiveDatabase(mockPhotoDAO);
     mockPhotoApi = MockPhotoApi();
@@ -92,7 +89,7 @@ void main() {
       when(() => mockPhotoApi.getPhotos(any()))
           .thenAnswer((_) async => examplePhotosPage);
 
-      var result = await photoRepository.getPhotosFromApi(GetPhotosQuery());
+      var result = await photoRepository.getPhotosFromApi(const GetPhotosQuery());
       // used to execute isolate
       await Future.delayed(const Duration(seconds: 1));
 
@@ -112,7 +109,7 @@ void main() {
 
       var leftObj;
 
-      var result = await photoRepository.getPhotosFromApi(GetPhotosQuery());
+      var result = await photoRepository.getPhotosFromApi(const GetPhotosQuery());
 
       result.fold((l) => leftObj = l, (r) => null);
 
@@ -131,7 +128,7 @@ void main() {
 
       var leftObj;
 
-      var result = await photoRepository.getPhotosFromApi(GetPhotosQuery());
+      var result = await photoRepository.getPhotosFromApi(const GetPhotosQuery());
 
       result.fold((l) => leftObj = l, (r) => null);
 
@@ -161,12 +158,12 @@ void main() {
       });
       when(() => mockPhotoDAO.get(any())).thenAnswer((invocation) => null);
 
-      photoRepository.getPhotosFromApi(GetPhotosQuery());
+      photoRepository.getPhotosFromApi(const GetPhotosQuery());
       await Future.delayed(const Duration(seconds: 10));
 
-      expect(getExecuteIndex, 5);
+      expect(getExecuteIndex, 1);
       expect(downloadExecuteIndex, 5);
-    }, skip: true);
+    });
   });
 
   group("local", () {

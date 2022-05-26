@@ -7,8 +7,8 @@ Photo examplePhoto = Photo(
     likes: 12,
     views: 2000,
     pageURL: "www.google.com",
-    previewURL: "previewURL",
-    webformatURL: "webformatURL",
+    previewURL: "test",
+    webformatURL: "https://pixabay.com/get/ga1a27226b30f21daa4daf7e037700d4edd74384c87adf6c96244996539869d743c549d19eb2b5176c3cac45da6e1d42b4380c64859eb240c7ceaddb180756aa8_640.jpg",
     largeImageURL: "largeImageURL",
     user: "user",
     userImageURL: "userImageURL");

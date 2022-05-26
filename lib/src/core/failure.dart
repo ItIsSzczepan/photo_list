@@ -9,6 +9,6 @@ class Failure with _$Failure{
   const factory Failure(String message, {dynamic errorObject}) = _Failure;
   const factory Failure.outOfRange() = OutOfRangeFailure;
 
-  String get message => message;
-  dynamic get errorObject => errorObject;
+  String get message => (this as _Failure).message;
+  dynamic get errorObject => (this as _Failure).errorObject;
 }
